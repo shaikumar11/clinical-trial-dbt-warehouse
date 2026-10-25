@@ -1,0 +1,51 @@
+version: 2
+models:
+  - name: dim_study
+    columns:
+      - name: study_key
+        tests: [unique, not_null]
+  - name: dim_site
+    columns:
+      - name: site_key
+        tests: [unique, not_null]
+      - name: study_key
+        tests:
+          - relationships: {to: ref('dim_study'), field: study_key}
+  - name: dim_subject
+    columns:
+      - name: subject_key
+        tests: [unique, not_null]
+      - name: site_key
+        tests:
+          - relationships: {to: ref('dim_site'), field: site_key}
+  - name: fact_visits
+    columns:
+      - name: visit_id
+        tests: [unique, not_null]
+      - name: subject_key
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_subject'), field: subject_key}
+      - name: date_key
+        tests:
+          - relationships: {to: ref('dim_date'), field: date_key}
+  - name: fact_adverse_events
+    columns:
+      - name: ae_id
+        tests: [unique, not_null]
+      - name: severity
+        tests:
+          - accepted_values:
+              values: ['Mild', 'Moderate', 'Severe']
+  - name: rpt_site_enrollment
+    columns:
+      - name: withdrawal_rate_pct
+        tests:
+          - not_null
+  - name: rejected_visits
+    columns:
+      - name: reject_reason
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['unknown subject', 'visit before enrollment']

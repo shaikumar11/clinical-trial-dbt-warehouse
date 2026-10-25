@@ -1,0 +1,18 @@
+version: 2
+models:
+  - name: stg_subjects
+    columns:
+      - name: subject_id
+        tests: [unique, not_null]
+      - name: sex
+        tests:
+          - accepted_values:
+              values: ['Male', 'Female', 'Unknown']
+  - name: stg_visits
+    columns:
+      - name: visit_id
+        tests: [unique, not_null]
+  - name: stg_sites
+    columns:
+      - name: site_id
+        tests: [unique, not_null]

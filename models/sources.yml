@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: studies
+      - name: sites
+      - name: subjects
+      - name: visits
+      - name: adverse_events
